@@ -82,12 +82,12 @@ namespace ATframework3demo.PageObjects
             AddParticipantLink().Click(Driver);
             // Wait for participant selection dialog/area to appear
             ParticipantSearchInput().WaitElementDisplayed(5, Driver);
-            ParticipantSearchInput().SendKeys(user.FirstName + " " + user.LastName, Driver); // Or user.LoginAkaEmail, depending on search behavior
+            ParticipantSearchInput().SendKeys(user.NameLastName, Driver); // Corrected to use NameLastName
 
             // Wait for search results and click the correct user
             // This locator needs to be specific to how users are listed in search results
-            var userInSearchResults = new WebItem($"//div[contains(@class, 'bx-finder-box-item-t7-name') and contains(text(), '{user.FirstName} {user.LastName}')] | //div[contains(@class,'ui-selector-item-title') and contains(text(), '{user.FirstName} {user.LastName}')]",
-                $"Пользователь '{user.FirstName} {user.LastName}' в результатах поиска");
+            var userInSearchResults = new WebItem($"//div[contains(@class, 'bx-finder-box-item-t7-name') and contains(text(), '{user.NameLastName}')] | //div[contains(@class,'ui-selector-item-title') and contains(text(), '{user.NameLastName}')]",
+                $"Пользователь '{user.NameLastName}' в результатах поиска"); // Corrected to use NameLastName
             userInSearchResults.WaitElementDisplayed(10, Driver);
             userInSearchResults.Click(Driver);
 

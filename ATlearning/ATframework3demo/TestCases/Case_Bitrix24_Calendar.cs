@@ -44,30 +44,15 @@ namespace ATframework3demo.TestCases
 
             try
             {
-                atFrameWork2.BaseFramework.LogTools.Log.Info("Navigating to Calendar page...");
                 calendarPage = homePage.LeftMenu.OpenCalendar();
-
-                atFrameWork2.BaseFramework.LogTools.Log.Info("Clicking 'Add Event' button...");
                 eventFormPage = calendarPage.ClickAddEventButton();
-
-                atFrameWork2.BaseFramework.LogTools.Log.Info($"Setting event name: {uniqueEventName}");
-                eventFormPage.SetEventName(uniqueEventName);
-
-                atFrameWork2.BaseFramework.LogTools.Log.Info("Setting event description...");
-                eventFormPage.SetEventDescription("This is a test event description created by an automated test.");
-
-                atFrameWork2.BaseFramework.LogTools.Log.Info($"Setting event start date to: {eventStartDateTime:dd.MM.yyyy}");
-                eventFormPage.SetStartDate(eventStartDateTime);
-
-                atFrameWork2.BaseFramework.LogTools.Log.Info($"Setting event start time to: {eventStartDateTime:HH:mm}");
-                eventFormPage.SetStartTime(eventStartDateTime);
-
-                atFrameWork2.BaseFramework.LogTools.Log.Info($"Adding participant: {newUser.FirstName} {newUser.LastName}");
-                eventFormPage.AddParticipant(newUser);
-
-                atFrameWork2.BaseFramework.LogTools.Log.Info("Saving event...");
-                calendarPage = eventFormPage.SaveEvent(); // SaveEvent returns CalendarPage
-                atFrameWork2.BaseFramework.LogTools.Log.Info("Event saved successfully from admin context.");
+                eventFormPage.SetEventName(uniqueEventName)
+                    .SetEventDescription("This is a test event description created by an automated test.")
+                    .SetStartDate(eventStartDateTime)
+                    .SetStartTime(eventStartDateTime)
+                    .AddParticipant(newUser);
+                calendarPage = eventFormPage.SaveEvent();
+                atFrameWork2.BaseFramework.LogTools.Log.Info($"Event '{uniqueEventName}' created successfully by admin, with participant {newUser.NameLastName}.");
             }
             catch (Exception e)
             {
@@ -78,14 +63,10 @@ namespace ATframework3demo.TestCases
             // Step 6: Verify Event (Admin Context)
             try
             {
-                atFrameWork2.BaseFramework.LogTools.Log.Info($"Verifying event '{uniqueEventName}' is visible on the calendar for admin...");
-                // For now, IsEventVisible in CalendarPage only checks name.
-                // We might enhance it later to check participants if the view allows.
-                bool isAdminEventVisible = calendarPage.IsEventVisible(uniqueEventName, new List<string> { newUser.FirstName + " " + newUser.LastName });
-
+                bool isAdminEventVisible = calendarPage.IsEventVisible(uniqueEventName, new List<string> { newUser.NameLastName });
                 if (isAdminEventVisible)
                 {
-                    atFrameWork2.BaseFramework.LogTools.Log.Info($"Event '{uniqueEventName}' is visible for admin.");
+                    atFrameWork2.BaseFramework.LogTools.Log.Info($"Event '{uniqueEventName}' verified successfully on admin's calendar.");
                 }
                 else
                 {
@@ -104,14 +85,10 @@ namespace ATframework3demo.TestCases
             PortalHomePage newUserHomePage = null;
             try
             {
-                atFrameWork2.BaseFramework.LogTools.Log.Info("Logging out admin user...");
-                // homePage is the PortalHomePage instance for the admin user
                 loginPage = homePage.Logout();
-                atFrameWork2.BaseFramework.LogTools.Log.Info("Admin user logged out successfully.");
-
-                atFrameWork2.BaseFramework.LogTools.Log.Info($"Logging in as new user: {newUser.LoginAkaEmail}...");
-                newUserHomePage = loginPage.Login(newUser); // Use the created newUser object
-                atFrameWork2.BaseFramework.LogTools.Log.Info($"Successfully logged in as new user: {newUser.LoginAkaEmail}.");
+                atFrameWork2.BaseFramework.LogTools.Log.Info("Admin user logged out.");
+                newUserHomePage = loginPage.Login(newUser);
+                atFrameWork2.BaseFramework.LogTools.Log.Info($"Logged in as new user: {newUser.LoginAkaEmail}.");
             }
             catch (Exception e)
             {
@@ -123,15 +100,11 @@ namespace ATframework3demo.TestCases
             CalendarPage newUserCalendarPage = null;
             try
             {
-                atFrameWork2.BaseFramework.LogTools.Log.Info($"Navigating to Calendar page for new user: {newUser.LoginAkaEmail}...");
                 newUserCalendarPage = newUserHomePage.LeftMenu.OpenCalendar();
-
-                atFrameWork2.BaseFramework.LogTools.Log.Info($"Verifying event '{uniqueEventName}' is visible on the calendar for new user...");
-                bool isNewUserEventVisible = newUserCalendarPage.IsEventVisible(uniqueEventName); // Not passing participants here, as it's the user's own calendar view
-
+                bool isNewUserEventVisible = newUserCalendarPage.IsEventVisible(uniqueEventName);
                 if (isNewUserEventVisible)
                 {
-                    atFrameWork2.BaseFramework.LogTools.Log.Info($"Event '{uniqueEventName}' is visible for new user: {newUser.LoginAkaEmail}.");
+                    atFrameWork2.BaseFramework.LogTools.Log.Info($"Event '{uniqueEventName}' verified successfully on {newUser.LoginAkaEmail}'s calendar.");
                 }
                 else
                 {
