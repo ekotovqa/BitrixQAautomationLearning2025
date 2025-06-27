@@ -71,5 +71,14 @@ namespace atFrameWork2.PageObjects
             ClickMenuItem(btnNews);
             return new NewsPage(Driver);
         }
+
+        public CalendarPage OpenCalendar()
+        {
+            //клик в пункт меню Календарь
+            var btnCalendar = new WebItem("//li[@id='bx_left_menu_menu_calendar']", "Пункт левого меню Календарь");
+            ClickMenuItem(btnCalendar);
+            // Assuming CalendarPage will be created in ATframework3demo.PageObjects namespace
+            return new CalendarPage(Driver);
+        }
     }
 }
