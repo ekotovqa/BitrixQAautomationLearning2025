@@ -1,7 +1,6 @@
 using atFrameWork2.BaseFramework;
 using atFrameWork2.PageObjects; // Assuming PortalHomePage might be needed
-using System;
-using System.Collections.Generic;
+using ATframework3demo.PageObjects;
 
 namespace ATframework3demo.TestCases // Changed namespace to reflect project
 {

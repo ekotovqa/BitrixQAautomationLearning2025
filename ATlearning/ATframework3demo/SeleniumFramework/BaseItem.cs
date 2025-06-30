@@ -98,13 +98,18 @@ namespace atFrameWork2.SeleniumFramework
         /// <param name="textToInput"></param>
         /// <param name="driver"></param>
         /// <param name="logInputtedText">Выводить ли введённый текст в лог</param>
-        public void SendKeys(string textToInput, IWebDriver driver = default, bool logInputtedText = true)
+        public void SendKeys(string textToInput, IWebDriver driver = default, bool logInputtedText = true, bool clearBefore = false)
         {
             WaitElementDisplayed(driver: driver);
             string textToLog = $"'{textToInput}'";
             if (!logInputtedText)
                 textToLog = "[логирование отключено]";
             PrintActionInfo($"Ввод текста {textToLog} в элемент");
+
+            if(clearBefore)
+            {
+                Execute((input, drv) => { input.Clear(); }, driver);
+            }
 
             Execute((input, drv) => { input.SendKeys(textToInput); }, driver);
             Waiters.StaticWait_s(DefaultWaitAfterActiveAction_s);

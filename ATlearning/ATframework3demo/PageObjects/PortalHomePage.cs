@@ -11,7 +11,7 @@ namespace atFrameWork2.PageObjects
 
         public PortalHomePage(IWebDriver driver = default)
         {
-            Driver = driver ?? SeleniumFramework.BaseItem.GetDefaultDriver();
+            Driver = driver;
         }
 
         public PortalLeftMenu LeftMenu => new PortalLeftMenu(Driver);
@@ -27,7 +27,7 @@ namespace atFrameWork2.PageObjects
             userProfileBlock.Click(Driver);
 
             // Locator for the "Выход" (Logout) link in the dropdown menu
-            var logoutButton = new SeleniumFramework.WebItem("//a[@class='menu-popup-item-text' and contains(text(),'Выход') or contains(text(),'Log out')]", "Logout button");
+            var logoutButton = new SeleniumFramework.WebItem("//a[@class='system-auth-form__item-link-all']", "Logout button");
             logoutButton.WaitElementDisplayed(5, Driver); // Wait for dropdown to appear
             logoutButton.Click(Driver);
 

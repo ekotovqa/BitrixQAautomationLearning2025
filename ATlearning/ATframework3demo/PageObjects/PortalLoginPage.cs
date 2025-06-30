@@ -10,7 +10,7 @@ using ATframework3demo.PageObjects;
 
 namespace atFrameWork2.PageObjects
 {
-    class PortalLoginPage : BaseLoginPage
+    public class PortalLoginPage : BaseLoginPage
     {
         IWebDriver Driver { get; }
 
@@ -26,7 +26,7 @@ namespace atFrameWork2.PageObjects
             var pwdField = new WebItem("//input[@id='password' or @name='USER_PASSWORD']", "Поле для ввода пароля");
             loginField.SendKeys(admin.LoginAkaEmail, Driver);
             if (!pwdField.WaitElementDisplayed(1, Driver))
-                loginField.SendKeys(Keys.Enter, Driver);
+                loginField.SendKeys(Keys.Enter, Driver, clearBefore: true);
             pwdField.SendKeys(admin.Password, Driver, logInputtedText: false);
             pwdField.SendKeys(Keys.Enter, Driver);
             return new PortalHomePage(Driver);

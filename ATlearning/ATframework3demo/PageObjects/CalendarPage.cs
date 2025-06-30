@@ -6,12 +6,12 @@ namespace ATframework3demo.PageObjects
 {
     public class CalendarPage
     {
-        private WebItem AddEventButton() => new WebItem("//*[@id='bx_calendar_add'] | //button[contains(@class, 'ui-btn-success') and contains(text(),'Add') or contains(text(),'Создать')]", "Кнопка добавления события в календаре");
+        private WebItem AddEventButton() => new WebItem("//button[contains(@class, 'ui-btn-main')]/span[contains(text(),'Add') or contains(text(),'Создать')]", "Кнопка добавления события в календаре");
         // More specific locators might be needed depending on the Bitrix24 version/customization
 
         public CalendarPage(IWebDriver driver = default)
         {
-            Driver = driver ?? BaseItem.GetDefaultDriver();
+            Driver = driver ?? BaseItem.DefaultDriver;
         }
 
         public IWebDriver Driver { get; }
@@ -35,7 +35,7 @@ namespace ATframework3demo.PageObjects
         {
             // Example: "//div[contains(@class, 'calendar-event-title') and contains(text(), '{eventName}')]"
             // This will need to be more robust, potentially checking date/time and participant details if visible directly on the event block
-            var eventItem = new WebItem($"//div[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), \"{eventName.ToLower()}\")]",
+            var eventItem = new WebItem($"//span[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), \"{eventName.ToLower()}\")]",
                 $"Событие в календаре с именем '{eventName}'");
 
             if (!eventItem.WaitElementDisplayed(timeoutSeconds, Driver))

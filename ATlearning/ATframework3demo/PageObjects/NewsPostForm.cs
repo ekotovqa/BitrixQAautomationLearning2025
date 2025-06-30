@@ -10,10 +10,10 @@ namespace ATframework3demo.PageObjects
     public class NewsPostForm
     {
         // Обычно для таких форм используется iframe, в который нужно переключиться
-        private const string PostEditorFrameId = "POST_iframe"; // Пример ID, может отличаться
-        private WebItem PostEditorFrame() => new WebItem($"//iframe[@id='{PostEditorFrameId}']", "Фрейм редактора поста");
+        private const string PostEditorFrameId = "bx-editor-iframe"; // Пример ID, может отличаться
+        private WebItem PostEditorFrame() => new WebItem($"//iframe[@class='{PostEditorFrameId}']", "Фрейм редактора поста");
         private WebItem PostBodyInput() => new WebItem("//body[@contenteditable='true']", "Поле ввода текста поста"); // Типичный локатор для contenteditable body в iframe
-        private WebItem SendButton() => new WebItem("//button[@id='blog-submit-button-save']", "Кнопка 'Отправить'");
+        private WebItem SendButton() => new WebItem("//span[@id='blog-submit-button-save']", "Кнопка 'Отправить'");
 
         public NewsPostForm(IWebDriver driver = default)
         {
